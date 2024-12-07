@@ -1,18 +1,18 @@
-import os
-import time
-from tqdm import tqdm
-import torch
 import math
-
-from torch.utils.data import DataLoader
-from torch.nn import DataParallel
-from torch.nn import L1Loss
-import numpy as np
-import pickle5 as pickle
+import os
+import pickle
 import random
+import time
 
-from src.utils import move_to
+import numpy as np
+import torch
+
+from torch.nn import DataParallel, L1Loss
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+
 from src.models.devformer import set_decode_type
+from src.utils import move_to
 
 
 def get_inner_model(model):
@@ -90,9 +90,9 @@ def clip_grad_norms(param_groups, max_norm=math.inf):
     grad_norms = [
         torch.nn.utils.clip_grad_norm_(
             group["params"],
-            max_norm
-            if max_norm > 0
-            else math.inf,  # Inf so no clipping but still call to calc
+            (
+                max_norm if max_norm > 0 else math.inf
+            ),  # Inf so no clipping but still call to calc
             norm_type=2,
         )
         for group in param_groups
@@ -324,5 +324,5 @@ def train_batch(model, optimizer, baseline, batch, opts, action):
 
     loss.backward()
     # Clip gradient norms and get (clipped) gradient norms for logging
-    grad_norms = clip_grad_norms(optimizer.param_groups, opts.max_grad_norm)
+    grad_norms = clip_grad_norms(optimizer.param_groups, opts.max_grad_norm)  # noqa
     optimizer.step()

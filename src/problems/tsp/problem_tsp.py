@@ -1,7 +1,9 @@
-from torch.utils.data import Dataset
-import torch
 import os
-import pickle5 as pickle
+import pickle
+
+import torch
+
+from torch.utils.data import Dataset
 
 from src.problems.tsp.state_tsp import StateTSP
 from src.utils.beam_search import beam_search
@@ -22,9 +24,9 @@ class TSP(object):
         d = dataset.gather(1, pi.unsqueeze(-1).expand_as(dataset))
 
         # Length is distance (L2-norm of difference) from each next location from its prev and of last from first
-        return (d[:, 1:] - d[:, :-1]).norm(p=2, dim=2).sum(1) + (
-            d[:, 0] - d[:, -1]
-        ).norm(p=2, dim=1), None
+        return (d[:, 1:] - d[:, :-1]).norm(p=2, dim=2).sum(1) + (d[:, 0] - d[:, -1]).norm(
+            p=2, dim=1
+        ), None
 
     @staticmethod
     def make_dataset(*args, **kwargs):
