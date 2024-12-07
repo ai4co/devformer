@@ -1,17 +1,18 @@
-import os
 import json
-from rich.pretty import pprint
+import os
 
 import torch
 import torch.optim as optim
 
-from src.models.critic_network import CriticNetwork
-from src.options import get_options
-from src.train import train_epoch, validate, get_inner_model
-from src.reinforce_baselines import CriticBaseline, RolloutBaseline, NoBaseline
+from rich.pretty import pprint
+
 from src.models.attention_model import AttentionModel
+from src.models.critic_network import CriticNetwork
 from src.models.devformer import DevFormer
-from src.utils import torch_load_cpu, load_problem
+from src.options import get_options
+from src.reinforce_baselines import CriticBaseline, NoBaseline, RolloutBaseline
+from src.train import get_inner_model, train_epoch, validate
+from src.utils import load_problem, torch_load_cpu
 from src.utils.data_utils import check_data_is_downloaded, download_data
 
 
@@ -140,7 +141,10 @@ def run(opts):
 
         torch.set_rng_state(load_data["rng_state"])
         if opts.use_cuda:
-            torch.cuda.set_rng_state_all(load_data["cuda_rng_state"])
+            try:
+                torch.cuda.set_rng_state_all(load_data["cuda_rng_state"])
+            except Exception:
+                print("Could not set cuda rng state")
         # Set the random states
         # Dumping of state was done before epoch callback, so do that now (model is loaded)
         baseline.epoch_callback(model, epoch_resume)
@@ -150,6 +154,7 @@ def run(opts):
     if opts.eval_only:
         model.eval()
         cost = validate(model, val_dataset, opts)
+        print("Validation cost: {:.4f}".format(cost))
 
     else:
         for epoch in range(opts.epoch_start, opts.epoch_start + opts.n_epochs):
