@@ -8,7 +8,7 @@ version = "1.0.1"
 description = "DevFormer Architecture for the Decoupling Capacitor Placement Problem"
 authors = ["Haeyeon Kim", "Minsu Kim", "Federico Berto", "Joungho Kim", "Jinkyoo Park"]
 readme = "README.md"
-license = "Apache 2.0"
+license = "MIT"
 repository = "https://github.com/ai4co/devformer"
 packages = [{include = "src"}]
 keywords = ["DPP", "DevFormer", "device placement", "hardware optimization", "ICML 2023"]
