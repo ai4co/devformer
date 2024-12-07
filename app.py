@@ -1,10 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import webbrowser
 
 from src.problems.dpp.simulator import decap_sim
-from utils.download_anonymous_github import download_repo
-
 
 APP_NAME = "DPP Benchmark"
 
@@ -30,7 +27,7 @@ MIN_WIDTH = 800
 
 
 st.set_page_config(page_title=APP_NAME, page_icon=":zap:")
-st.title(f"Decoupling Capacitor Placement")
+st.title("Decoupling Capacitor Placement")
 
 # Add permanent notice
 st.markdown(
@@ -46,25 +43,6 @@ st.markdown(
 
 st.markdown("---")
 
-# Title
-st.markdown(
-    f"""
-    To download the code from our Anonymous Github Repo ([link](https://anonymous.4open.science/r/DPPBench)) automatically, click on "Downloader Script" and run:
-    `python3 download_anonymous_github.py`
-    in the terminal. This will download the repository to the current directory.
-    """
-)
-
-
-# Download button for anonymous github
-with open("download_anonymous_github.py", "r") as f:
-    download_script = f.read()
-
-st.download_button(
-    label="Downloader Script ⬇️",
-    data=download_script,
-    file_name="download_anonymous_github.py",
-)
 
 # Divider
 st.markdown("---")
