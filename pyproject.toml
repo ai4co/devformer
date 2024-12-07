@@ -1,0 +1,99 @@
+[build-system]
+requires = ["poetry"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "devformer"
+version = "1.0.1"
+description = "DevFormer Architecture for the Decoupling Capacitor Placement Problem"
+authors = ["Haeyeon Kim", "Minsu Kim", "Federico Berto", "Joungho Kim", "Jinkyoo Park"]
+readme = "README.md"
+license = "Apache 2.0"
+repository = "https://github.com/ai4co/devformer"
+packages = [{include = "src"}]
+keywords = ["DPP", "DevFormer", "device placement", "hardware optimization", "ICML 2023"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Intended Audience :: Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+torch = "*"
+numpy = "*"
+tqdm = "*"
+scipy = "*"
+matplotlib = "*"
+scikit-rf = "*"
+wandb = "*"
+rich = "*"
+six = "*"
+robust-downloader = "*"
+black = { version = "*", optional = true }
+pre-commit = { version = ">=3.3.3", optional = true }
+ruff = { version = "*", optional = true }
+pytest = { version = "*", optional = true }
+pytest-cov = { version = "*", optional = true }
+streamlit = { version = "*", optional = true }
+
+
+[tool.poetry.extras]
+app = ["streamlit"]
+dev = ["pytest", "pytest-cov", "black", "ruff", "pre-commit"]
+
+[tool.ruff]
+select = ["F", "E", "W", "I001"]
+line-length = 90
+show-fixes = false
+target-version = "py311"
+task-tags = ["TODO", "FIXME"]
+ignore = ["E501"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+
+[tool.ruff.isort]
+known-first-party = []
+known-third-party = []
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+combine-as-imports = true
+split-on-trailing-comma = false
+lines-between-types = 1
+
+[tool.black]
+line-length = 90
+target-version = ["py311"]
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.direnv
+    | \.eggs
+    | \.git
+    | \.tox
+    | \.venv
+    | _build
+    | build
+    | dist
+    | venv
+  )/
+)
+'''
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+]

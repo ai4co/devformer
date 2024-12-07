@@ -2,7 +2,7 @@ import os
 import pickle
 import zipfile
 
-from src.utils.downloader import download_url
+from robust_downloader import download as download_url
 
 
 def check_extension(filename):
@@ -28,7 +28,8 @@ def load_dataset(filename):
 
 def download_data(
     url="https://drive.google.com/uc?id=1cANSJRW7STCl_7cWacDajWMXcEUQG1SK",
-    md5="378339c8bf144e48d57db1121b46ccfe",
+    # md5="378339c8bf144e48d57db1121b46ccfe", # note: we don't check md5 below
+    md5=None,
 ):
     """Download data from Google Drive and unzip it in data/ directory."""
     download_url(url, ".", md5=md5, filename="data.zip")
